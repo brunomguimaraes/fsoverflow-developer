@@ -5,7 +5,7 @@ import AppError from '../errors/AppError';
 import { httpStatus } from '../utils/enums';
 
 class UserService {
-  public async create({ name, currentClass }: User) {
+  public create = async ({ name, currentClass }: User) => {
     const userReposisitory = new UserRepository();
 
     const token = generateToken();
@@ -21,7 +21,7 @@ class UserService {
     const user = await userReposisitory.create(data);
 
     return user;
-  }
+  };
 }
 
 export default UserService;
