@@ -5,4 +5,7 @@ const generateToken = (): string => {
     .padEnd(8, '0');
 };
 
-export { generateToken };
+const generateDate = () =>
+  new Date().toISOString().split('.')[0].replace('T', ' ');
+
+export { generateToken, generateDate };
