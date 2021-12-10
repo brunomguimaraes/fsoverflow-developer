@@ -1,7 +1,16 @@
 import { httpStatus } from '../utils/enums';
 import AppError from '../errors/AppError';
+import { NextFunction, Request, Response } from 'express';
+import { DefaultErrorResponse } from '../interfaces/Response';
 
-const HandleErrors = ({ err, _, res, __ }: any) => {
+interface ErrorRequestHandlerAPI {
+  err: DefaultErrorResponse;
+  req: Request;
+  res: Response;
+  next: NextFunction;
+}
+
+const HandleErrors = ({ err, req, res, next }: ErrorRequestHandlerAPI) => {
   const defaultData = {
     status: httpStatus.BAD_REQUEST,
     message: ''
@@ -20,3 +29,5 @@ const HandleErrors = ({ err, _, res, __ }: any) => {
     message: defaultData.message
   });
 };
+
+export default HandleErrors;

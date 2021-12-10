@@ -1,14 +1,18 @@
 import { Response } from 'express';
+import {
+  DefaultErrorResponse,
+  DefaultSuccessResponse
+} from '../interfaces/Response';
 import { httpStatus } from '../utils/enums';
 
 class Helper {
-  public static success = (res: Response, data: any) => {
-    return res.status(data.code || httpStatus.SUCCESS).send({
+  public static success = (res: Response, data: DefaultSuccessResponse) => {
+    return res.status(data.status || httpStatus.SUCCESS).send({
       ...data
     });
   };
 
-  public static failed = (res: Response, catchError: any) => {
+  public static failed = (res: Response, catchError: DefaultErrorResponse) => {
     const status =
       catchError.status < 1000
         ? catchError.status
