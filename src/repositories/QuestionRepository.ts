@@ -12,6 +12,17 @@ class QuestionRepository {
 
     return result.rows[0];
   };
+
+  public findUnanswered = async (): Promise<QuestionDB[]> => {
+    const result = await connection.query(`
+      SELECT 
+      id, question, student, class, "submitedAt"
+      FROM questions 
+      WHERE answered = false;
+      `);
+
+    return result.rows;
+  };
 }
 
 export default QuestionRepository;
