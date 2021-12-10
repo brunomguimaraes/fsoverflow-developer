@@ -1,7 +1,9 @@
 import joi from 'joi';
+import HelperResponse from '../helpers/HelperResponse';
 import Helper from '../helpers/HelperResponse';
 import QuestionService from '../services/QuestionService';
 import { RequestHandlerAPI } from '../types/Request';
+import { httpStatus } from '../utils/enums';
 
 const createQuestionValidator = joi.object({
   question: joi.string().min(3).required(),
@@ -31,8 +33,23 @@ class QuestionController {
       });
 
       return Helper.success(res, {
+        status: httpStatus.CREATED,
         message: 'Question created successfully',
         data: newQuestion.id
+      });
+    } catch (err) {
+      return Helper.failed(res, err);
+    }
+  };
+
+  public findUnanswered: RequestHandlerAPI = async (req, res, next) => {
+    try {
+      const questionService = new QuestionService();
+      const questions = await questionService.findUnanswered();
+
+      return HelperResponse.success(res, {
+        message: 'Success',
+        data: questions
       });
     } catch (err) {
       return Helper.failed(res, err);

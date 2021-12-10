@@ -5,7 +5,10 @@ const generateToken = (): string => {
     .padEnd(8, '0');
 };
 
-const generateDate = () =>
-  new Date().toISOString().split('.')[0].replace('T', ' ');
+const generateDate = () => {
+  const offset = new Date().getTimezoneOffset() * 60000;
+  const dateLocal = new Date(Date.now() - offset).toISOString().slice(0, -1);
+  return dateLocal.split('.')[0].replace('T', ' ');
+};
 
 export { generateToken, generateDate };
