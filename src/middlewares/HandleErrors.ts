@@ -2,7 +2,7 @@ import { httpStatus } from '../utils/enums';
 import AppError from '../errors/AppError';
 import { ErrorRequestHandlerAPI } from '../types/Request';
 
-const HandleErrors: ErrorRequestHandlerAPI = (err, req, res, next) => {
+const HandleErrors: ErrorRequestHandlerAPI = (err, _, res, __) => {
   const defaultData = {
     status: httpStatus.BAD_REQUEST,
     message: ''

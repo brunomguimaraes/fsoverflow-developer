@@ -12,6 +12,10 @@ const createQuestionValidator = joi.object({
   tags: joi.string().min(3).required()
 });
 
+const answerQuestionValidator = joi.object({
+  answer: joi.string().min(3).required()
+});
+
 class QuestionController {
   public create: RequestHandlerAPI = async (req, res, next) => {
     try {
@@ -50,6 +54,27 @@ class QuestionController {
       return HelperResponse.success(res, {
         message: 'Success',
         data: questions
+      });
+    } catch (err) {
+      return Helper.failed(res, err);
+    }
+  };
+
+  public answerQuestion: RequestHandlerAPI = async (req, res, next) => {
+    try {
+      const id = Number(req.params.id);
+      const { answer } = req.body;
+      const { token } = req;
+
+      const { error } = answerQuestionValidator.validate({ answer });
+      if (error) return next(error.details);
+
+      const questionService = new QuestionService();
+      await questionService.answerQuestion(id, token, answer);
+
+      return Helper.success(res, {
+        message: 'Question answered successfully',
+        data: {}
       });
     } catch (err) {
       return Helper.failed(res, err);

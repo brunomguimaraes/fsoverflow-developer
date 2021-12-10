@@ -4,7 +4,8 @@ enum httpStatus {
   CREATED = 201,
   CONFLICT = 409,
   NOT_FOUND = 404,
-  INTERNAL_SERVER_ERROR = 500
+  INTERNAL_SERVER_ERROR = 500,
+  UNAUTHORIZED = 401
 }
 
 export { httpStatus };
