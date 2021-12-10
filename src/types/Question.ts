@@ -15,4 +15,11 @@ interface QuestionDB extends Omit<Question, 'submitedAt'> {
   answer: string;
 }
 
-export { Question, QuestionDB };
+interface Answer {
+  id: number;
+  answeredAt: string;
+  answeredBy: string;
+  answer: string;
+}
+
+export { Question, QuestionDB, Answer };

@@ -4,7 +4,7 @@ import questionRouter from './routes/question.routes';
 
 const router = Router();
 
-router.get('/status', (req: Request, res: Response) => {
+router.get('/status', (_, res: Response) => {
   res.send({
     message: 'Server is OK!!'
   });
