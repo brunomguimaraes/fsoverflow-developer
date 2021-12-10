@@ -1,5 +1,5 @@
 import connection from '../connection/database';
-import { User, UserDB } from '../interfaces/User';
+import { User, UserDB } from '../types/User';
 
 class UserRepository {
   public async create(data: User): Promise<UserDB> {

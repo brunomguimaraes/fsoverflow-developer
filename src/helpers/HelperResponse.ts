@@ -2,7 +2,7 @@ import { Response } from 'express';
 import {
   DefaultErrorResponse,
   DefaultSuccessResponse
-} from '../interfaces/Response';
+} from '../types/Response';
 import { httpStatus } from '../utils/enums';
 
 class Helper {

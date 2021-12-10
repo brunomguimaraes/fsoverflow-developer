@@ -1,11 +1,12 @@
 interface User {
   name: string;
   currentClass: string;
-  token: string;
+  token?: string;
 }
 
-interface UserDB extends User {
+interface UserDB extends Omit<User, 'token'> {
   id: number;
+  token: string;
 }
 
 export { User, UserDB };
