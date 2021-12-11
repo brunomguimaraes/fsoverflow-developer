@@ -60,6 +60,22 @@ class QuestionController {
     }
   };
 
+  public getQuestion: RequestHandlerAPI = async (req, res, next) => {
+    try {
+      const id = Number(req.params.id);
+
+      const questionService = new QuestionService();
+      const question = await questionService.getQuestion(id);
+
+      return Helper.success(res, {
+        message: 'Success',
+        data: question
+      });
+    } catch (err) {
+      return Helper.failed(res, err);
+    }
+  };
+
   public answerQuestion: RequestHandlerAPI = async (req, res, next) => {
     try {
       const id = Number(req.params.id);
