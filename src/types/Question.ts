@@ -3,10 +3,11 @@ interface Question {
   student: string;
   currentClass: string;
   tags: string;
+  answered?: boolean;
   submitedAt?: string;
 }
 
-interface QuestionDB extends Omit<Question, 'submitedAt'> {
+interface QuestionDB extends Omit<Question, 'submitedAt | answered'> {
   id: number;
   submitedAt: string;
   answered: boolean;

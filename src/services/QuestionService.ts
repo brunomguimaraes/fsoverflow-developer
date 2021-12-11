@@ -35,6 +35,21 @@ class QuestionService {
     return questions;
   };
 
+  public getQuestion = async (id: number): Promise<QuestionDB> => {
+    const questionRepository = new QuestionRepository();
+    const questionExists = await questionRepository.findById(id);
+    if (!questionExists)
+      throw new AppError('Question not found', httpStatus.NOT_FOUND);
+
+    if (!questionExists.answered) {
+      delete questionExists.answeredAt;
+      delete questionExists.answeredBy;
+      delete questionExists.answer;
+    }
+
+    return questionExists;
+  };
+
   public answerQuestion = async (
     id: number,
     token: string,
