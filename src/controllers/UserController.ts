@@ -2,6 +2,7 @@ import joi from 'joi';
 import { RequestHandlerAPI } from '../types/Request';
 import Helper from '../helpers/HelperResponse';
 import UserService from '../services/UserService';
+import { httpStatus } from '../utils/enums';
 
 const createUserValidator = joi.object({
   name: joi.string().min(3).required(),
@@ -24,6 +25,7 @@ class UserController {
       });
 
       return Helper.success(res, {
+        status: httpStatus.CREATED,
         message: 'User created successfully',
         data: user
       });
