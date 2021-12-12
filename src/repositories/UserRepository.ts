@@ -1,4 +1,4 @@
-import connection from '../connection/database';
+import connection from '../database/connection';
 import { User, UserDB } from '../types/User';
 
 class UserRepository {
@@ -18,6 +18,10 @@ class UserRepository {
       [token]
     );
     return result.rows[0];
+  };
+
+  public delete = async (): Promise<void> => {
+    await connection.query('DELETE FROM users;');
   };
 }
 

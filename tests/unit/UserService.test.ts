@@ -1,23 +1,14 @@
-import faker from 'faker';
 import AppError from '../../src/errors/AppError';
 import UserService from '../../src/services/UserService';
 import UserRepository from '../../src/repositories/UserRepository';
 import * as Functions from '../../src/utils/functions';
-import { UserDB } from '../../src/types/User';
+import { fakeToken, mockFakeUser } from '../factories/userFactory';
 
 jest.mock('../../src/repositories/UserRepository');
 jest.mock('../../src/utils/functions');
 
 const stu = new UserService();
 const UserRepositoryMock = UserRepository as jest.Mock<UserRepository>;
-
-const fakeToken = faker.datatype.string();
-const mockFakeUser: UserDB = {
-  id: 0,
-  token: fakeToken,
-  name: faker.name.firstName(),
-  currentClass: faker.datatype.string()
-};
 
 describe('User Service', () => {
   test('Should returns a new AppError - User already exists', async () => {
@@ -28,7 +19,8 @@ describe('User Service', () => {
     UserRepositoryMock.mockImplementationOnce(() => {
       return {
         create: () => null,
-        findByToken: () => Promise.resolve(mockFakeUser)
+        findByToken: () => Promise.resolve(mockFakeUser),
+        delete: () => null
       };
     });
 
@@ -48,7 +40,8 @@ describe('User Service', () => {
     UserRepositoryMock.mockImplementationOnce(() => {
       return {
         create: () => Promise.resolve(mockFakeUser),
-        findByToken: () => null
+        findByToken: () => null,
+        delete: () => null
       };
     });
 

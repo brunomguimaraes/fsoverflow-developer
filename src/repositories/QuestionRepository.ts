@@ -1,4 +1,4 @@
-import connection from '../connection/database';
+import connection from '../database/connection';
 import { Answer, Question, QuestionDB } from '../types/Question';
 
 class QuestionRepository {
