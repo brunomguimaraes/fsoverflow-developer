@@ -35,7 +35,8 @@ describe('Question Service', () => {
         create: () => Promise.resolve(mockFakeQuestionUnansweredDB),
         findUnanswered: () => null,
         findById: () => null,
-        answerQuestion: () => null
+        answerQuestion: () => null,
+        delete: () => null
       };
     });
 
@@ -51,7 +52,8 @@ describe('Question Service', () => {
         create: () => null,
         findUnanswered: () => Promise.resolve([]),
         findById: () => null,
-        answerQuestion: () => null
+        answerQuestion: () => null,
+        delete: () => null
       };
     });
 
@@ -65,7 +67,8 @@ describe('Question Service', () => {
         create: () => null,
         findUnanswered: () => Promise.resolve(mockUnansweredQuestionsArray),
         findById: () => null,
-        answerQuestion: () => null
+        answerQuestion: () => null,
+        delete: () => null
       };
     });
 
@@ -80,7 +83,8 @@ describe('Question Service', () => {
         create: () => null,
         findUnanswered: () => null,
         findById: () => null,
-        answerQuestion: () => null
+        answerQuestion: () => null,
+        delete: () => null
       };
     });
 
@@ -94,7 +98,8 @@ describe('Question Service', () => {
         create: () => null,
         findUnanswered: () => null,
         findById: () => Promise.resolve(mockFakeQuestionUnansweredDB),
-        answerQuestion: () => null
+        answerQuestion: () => null,
+        delete: () => null
       };
     });
 
@@ -109,7 +114,8 @@ describe('Question Service', () => {
         create: () => null,
         findUnanswered: () => null,
         findById: () => Promise.resolve(mockFakeQuestionAnsweredDB),
-        answerQuestion: () => null
+        answerQuestion: () => null,
+        delete: () => null
       };
     });
 
@@ -132,7 +138,8 @@ describe('Question Service', () => {
         create: () => null,
         findUnanswered: () => null,
         findById: () => Promise.resolve(mockFakeQuestionAnsweredDB),
-        answerQuestion: () => null
+        answerQuestion: () => null,
+        delete: () => null
       };
     });
 
@@ -141,19 +148,20 @@ describe('Question Service', () => {
   });
 
   test('Answer Question: should returns a new AppError - Question not found', async () => {
+    UserRepositoryMock.mockImplementationOnce(() => {
+      return {
+        create: () => null,
+        findByToken: () => Promise.resolve(mockFakeUser),
+        delete: () => null
+      };
+    });
+
     QuestionRepositoryMock.mockImplementationOnce(() => {
       return {
         create: () => null,
         findUnanswered: () => null,
         findById: () => null,
-        answerQuestion: () => null
-      };
-    });
-
-    UserRepositoryMock.mockImplementationOnce(() => {
-      return {
-        create: () => null,
-        findByToken: () => Promise.resolve(mockFakeUser),
+        answerQuestion: () => null,
         delete: () => null
       };
     });
@@ -168,7 +176,8 @@ describe('Question Service', () => {
         create: () => null,
         findUnanswered: () => null,
         findById: () => Promise.resolve(mockFakeQuestionAnsweredDB),
-        answerQuestion: () => null
+        answerQuestion: () => null,
+        delete: () => null
       };
     });
 
@@ -194,7 +203,8 @@ describe('Question Service', () => {
         create: () => null,
         findUnanswered: () => null,
         findById: () => Promise.resolve(mockFakeQuestionUnansweredDB),
-        answerQuestion: () => null
+        answerQuestion: () => null,
+        delete: () => null
       };
     });
 

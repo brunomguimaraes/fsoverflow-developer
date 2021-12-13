@@ -45,6 +45,10 @@ class QuestionRepository {
 
     return result.rows;
   };
+
+  public delete = async (): Promise<void> => {
+    await connection.query('DELETE FROM questions;');
+  };
 }
 
 export default QuestionRepository;

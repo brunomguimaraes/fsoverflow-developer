@@ -10,7 +10,7 @@ afterAll(async () => {
 });
 
 describe('POST /users', () => {
-  test('Shold returns 404 for invalid body', async () => {
+  test('Shold returns 400 for invalid body', async () => {
     const result = await supertest(app).post('/users').send({
       name: mockFakeUser.name,
       currentClass: 12345

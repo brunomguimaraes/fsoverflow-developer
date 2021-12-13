@@ -1,9 +1,12 @@
 import faker from 'faker';
 import { Question, QuestionDB } from '../../src/types/Question';
 import { mockFakeUser, fakeToken } from './userFactory';
+import QuestionRepository from '../../src/repositories/QuestionRepository';
 
 const fakeDate = faker.datatype.datetime();
 const fakeId = faker.datatype.number();
+
+const questionRepository = new QuestionRepository();
 
 const mockFakeQuestion: Question = {
   question: faker.datatype.string(),
@@ -49,6 +52,11 @@ const mockFakeAnswer = {
   answer: faker.datatype.string()
 };
 
+const deleteQuestions = async () => questionRepository.delete();
+
+const createFakeUnasweredQuestion = async () =>
+  questionRepository.create(mockFakeQuestionAnsweredDB);
+
 export {
   fakeId,
   fakeDate,
@@ -56,5 +64,7 @@ export {
   mockFakeQuestionAnsweredDB,
   mockFakeQuestionUnansweredDB,
   mockUnansweredQuestionsArray,
-  mockFakeAnswer
+  mockFakeAnswer,
+  deleteQuestions,
+  createFakeUnasweredQuestion
 };
