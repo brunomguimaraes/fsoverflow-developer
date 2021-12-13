@@ -39,7 +39,9 @@ class QuestionController {
       return Helper.success(res, {
         status: httpStatus.CREATED,
         message: 'Question created successfully',
-        data: newQuestion.id
+        data: {
+          id: newQuestion.id
+        }
       });
     } catch (err) {
       return Helper.failed(res, err);
