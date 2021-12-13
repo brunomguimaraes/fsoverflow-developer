@@ -49,6 +49,15 @@ class QuestionRepository {
   public delete = async (): Promise<void> => {
     await connection.query('DELETE FROM questions;');
   };
+
+  public createAnsweredQuestion = async (): Promise<QuestionDB> => {
+    const result = await connection.query(
+      'INSERT INTO questions (question, student, class, tags, "submitedAt", answered) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *;',
+      ['fakeAnswer', 'fakeStudent', 'fakeClass', 'fakeTags', 'fakeDate', true]
+    );
+
+    return result.rows[0];
+  };
 }
 
 export default QuestionRepository;

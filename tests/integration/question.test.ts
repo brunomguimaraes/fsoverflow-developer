@@ -4,13 +4,22 @@ import connection from '../../src/database/connection';
 import { httpStatus } from '../../src/utils/enums';
 import {
   mockFakeQuestion,
+  mockFakeAnswer,
   deleteQuestions,
   mockFakeQuestionUnansweredDB,
-  createFakeUnasweredQuestion
+  createFakeUnasweredQuestion,
+  createFakeAnsweredQuestion
 } from '../factories/questionFactory';
+import {
+  fakeToken,
+  mockFakeUser,
+  deleteUsers,
+  createFakeUser
+} from '../factories/userFactory';
 
 afterAll(async () => {
   await deleteQuestions();
+  await deleteUsers();
   connection.end();
 });
 
@@ -62,23 +71,68 @@ describe('GET /questions/:id', () => {
     await deleteQuestions();
   });
 
-  afterEach(async () => {
-    await createFakeUnasweredQuestion();
-  });
-
   test('Shold returns 404 no unanswered questions yet', async () => {
     const result = await supertest(app)
-      .get(`/question/${mockFakeQuestionUnansweredDB.id}`)
+      .get(`/questions/${mockFakeQuestionUnansweredDB.id}`)
       .send();
     expect(result.status).toEqual(httpStatus.NOT_FOUND);
   });
 
-  /* test('Shold returns 200 and an unanswered question', async () => {
-    const result = await supertest(app)
-      .get(`/question/${mockFakeQuestionUnansweredDB.id}`)
-      .send();
-    console.log(result.body);
+  test('Shold returns 200 and an unanswered question', async () => {
+    const question = await createFakeUnasweredQuestion();
+    const result = await supertest(app).get(`/questions/${question.id}`).send();
+
     expect(result.status).toEqual(httpStatus.SUCCESS);
     expect(result.body.data.answered).toBeFalsy();
-  }); */
+  });
+});
+
+describe('POST /questions/:id', () => {
+  beforeAll(async () => {
+    await deleteQuestions();
+    await createFakeUser();
+  });
+
+  test('Shold returns 404 for user not found', async () => {
+    const question = await createFakeUnasweredQuestion();
+
+    const result = await supertest(app)
+      .post(`/questions/${question.id}`)
+      .send(mockFakeAnswer)
+      .set('Authorization', `Bearer invalid_token_`);
+
+    expect(result.status).toEqual(httpStatus.NOT_FOUND);
+  });
+
+  test('Shold returns 404 for question not found', async () => {
+    const result = await supertest(app)
+      .post(`/questions/-4`)
+      .send({ answer: mockFakeAnswer.answer })
+      .set('Authorization', `Bearer ${fakeToken}`);
+
+    expect(result.status).toEqual(httpStatus.NOT_FOUND);
+  });
+
+  test('Shold returns 409 for question already answered', async () => {
+    const question = await createFakeAnsweredQuestion();
+
+    const result = await supertest(app)
+      .post(`/questions/${question.id}`)
+      .send(mockFakeAnswer)
+      .set('Authorization', `Bearer ${fakeToken}`);
+
+    expect(result.status).toEqual(httpStatus.CONFLICT);
+    expect(result.body.message).toBe('Question already answered');
+  });
+
+  test('Shold returns 200 for question answered successfully', async () => {
+    const question = await createFakeUnasweredQuestion();
+
+    const result = await supertest(app)
+      .post(`/questions/${question.id}`)
+      .send({ answer: mockFakeAnswer.answer })
+      .set('Authorization', `Bearer ${fakeToken}`);
+
+    expect(result.status).toEqual(httpStatus.SUCCESS);
+  });
 });

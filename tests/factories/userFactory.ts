@@ -14,4 +14,11 @@ const mockFakeUser: UserDB = {
 
 const deleteUsers = async () => userRepository.delete();
 
-export { fakeToken, mockFakeUser, deleteUsers };
+const data = {
+  name: mockFakeUser.name,
+  currentClass: mockFakeUser.currentClass,
+  token: mockFakeUser.token
+};
+const createFakeUser = async () => userRepository.create(data);
+
+export { fakeToken, mockFakeUser, deleteUsers, createFakeUser };

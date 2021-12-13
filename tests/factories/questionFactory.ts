@@ -54,8 +54,15 @@ const mockFakeAnswer = {
 
 const deleteQuestions = async () => questionRepository.delete();
 
-const createFakeUnasweredQuestion = async () =>
-  questionRepository.create(mockFakeQuestionAnsweredDB);
+const createFakeUnasweredQuestion = async () => {
+  const question = await questionRepository.create(mockFakeQuestion);
+  return question;
+};
+
+const createFakeAnsweredQuestion = async () => {
+  const question = await questionRepository.createAnsweredQuestion();
+  return question;
+};
 
 export {
   fakeId,
@@ -66,5 +73,6 @@ export {
   mockUnansweredQuestionsArray,
   mockFakeAnswer,
   deleteQuestions,
-  createFakeUnasweredQuestion
+  createFakeUnasweredQuestion,
+  createFakeAnsweredQuestion
 };
